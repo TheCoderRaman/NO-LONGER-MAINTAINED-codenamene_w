@@ -12,7 +12,13 @@
 #define VK_DOWN 0x28
 #define VK_SPACE 0x20
 #define VK_ESCAPE 0x1B
+#define VK_SHIFT 0x10
 #define VK_R 0x52
+#define VK_L 0x4C
+#define VK_W 0x57
+#define VK_A 0x41
+#define VK_S 0x53
+#define VK_D 0x44
 
 class inputStream
 {
@@ -58,9 +64,33 @@ class inputStream
 			{
 				input << "esc ";
 			}
+			if(GetAsyncKeyState(VK_SHIFT) != 0)
+			{
+				input << "shift ";
+			}
 			if(GetAsyncKeyState(VK_R) != 0)
 			{
 				input << "r ";
+			}
+			if(GetAsyncKeyState(VK_L) != 0)
+			{
+				input << "l ";
+			}
+			if(GetAsyncKeyState(VK_W) != 0)
+			{
+				input << "w ";
+			}
+			if(GetAsyncKeyState(VK_A) != 0)
+			{
+				input << "a ";
+			}
+			if(GetAsyncKeyState(VK_S) != 0)
+			{
+				input << "s ";
+			}
+			if(GetAsyncKeyState(VK_D) != 0)
+			{
+				input << "d ";
 			}
 
 			inputStr = input.str();

@@ -21,42 +21,6 @@ renderer::renderer(map *mapPointer, clocks *C)
 	c = C;
 }
 
-void renderer::oldRender()
-{
-	vector<vector<char>> mapCopy = m->getCopy();
-	vector<vector<int>> mapColorCopy = m->getColorCopy();
-
-	for (int y = 0; y < m->height; y++)
-	{
-
-		//what if i extend blocks to more than a line
-		stringstream block;
-		int lastColor = mapColorCopy[y][0];
-		int currentColor;
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), lastColor);
-
-		for (int x = 0; x < m->width; x++)
-		{
-			if (mapColorCopy[y][x] == lastColor)
-			{
-				block << mapCopy[y][x];
-			}
-			else
-			{
-				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), lastColor);
-				cout << block.str();
-				block.str(string());
-				block.clear();
-				block << mapCopy[y][x];
-				lastColor = mapColorCopy[y][x];
-				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), lastColor);
-			}
-		}
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), lastColor);
-		cout << block.str() << endl;
-	}
-}
-
 void renderer::render()
 {
 	vector<vector<char>> mapCopy = m->getCopy();
@@ -107,7 +71,7 @@ void renderer::render()
 	block.str(string());
 	block.clear();
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
-	cout << endl << c->frameCount; 
+	//cout << endl << "mainClock:" << c->frameCount << " playerSpeed:" << m->playerSpeed << " fps:" << m->fps; 
 }
 
 void renderer::simpleRender()

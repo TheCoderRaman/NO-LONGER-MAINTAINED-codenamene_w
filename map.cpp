@@ -11,7 +11,8 @@ int width, height;
 int centerX, centerY;
 int bgColor;
 char bgChar;
-int playerX, playerY;
+double starSpeed;
+int fps;
 vector<vector<char>> mapV;
 vector<vector<int>> colorMapV; //implement
 
@@ -23,6 +24,8 @@ map::map(int w, int h, int bgcolor, char bgchar)
 	centerY = h / 2;
 	bgColor = bgcolor;
 	bgChar = bgchar;
+	starSpeed = 0.0;
+	fps = 0;
 
 	for (int y = 0; y < h; y++)
 	{

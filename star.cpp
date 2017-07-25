@@ -3,6 +3,7 @@
 #include <vector>
 #include <stdlib.h>
 #include <time.h>
+#include <algorithm>
 
 using namespace std;
 
@@ -11,27 +12,27 @@ using namespace std;
 static map *m;
 static clocks *c;
 
-/*
-make speed slower when nothing based on spee
-*/
-
-int speed;
+static int wait;
 
 star::star(map *mapPointer, clocks *C)
 {
 	m = mapPointer;
 	c = C;
 
+	wait = c->frameCount + (rand() % 14 - m->starSpeed + 1);
+
 	srand (time(NULL));
 }
 
 void star::step()
 {
+	if(m->starSpeed < 0)
+		m->starSpeed = 0;
+
 	vector<vector<char>> mapCopy = m->getCopy();
 	vector<vector<int>> mapColorCopy = m->getColorCopy();
 
 	moveStars(mapCopy, mapColorCopy);
-	//movePlanet(mapCopy, mapColorCopy); maybe planets are good repurposed as enemies
 	createStars(mapCopy, mapColorCopy);
 }
 
@@ -66,23 +67,25 @@ void star::moveStars(vector<vector<char>> mapCopy, vector<vector<int>> mapColorC
 				if (x == 0)
 				{
 					m->set(x, y, m->bgChar, m->bgColor);
-					m->set(x + 1, y, m->bgChar, m->bgColor);
+					if(mapCopy[y][x+1] == '*' && mapColorCopy[y][x+1] == 15)
+						m->set(x + 1, y, m->bgChar, m->bgColor);
 				}
-				int dif = (rand() % 8 + 1);
+				int dif = (rand() % 4 + m->starSpeed) + 1;
 				if (dif > x)
-				{
 					dif = x;
-				}
 				m->move(x, y, x - dif, y);
-				m->move(x + 1, y, x - dif + 1, y);
+				if(mapCopy[y][x+1] == '*' && mapColorCopy[y][x+1] == 15)
+					m->move(x + 1, y, x - dif + 1, y);
 			}
+			if(mapCopy[y][x] == '*' && mapColorCopy[y][x] == 15 && mapCopy[y][x - 1] != '*' && mapColorCopy[y][x - 1] != '14')
+				m->set(x, y, m->bgChar, m->bgColor);
 		}
 	}
 }
 
 void star::createStars(vector<vector<char>> mapCopy, vector<vector<int>> mapColorCopy)
 {
-	if (c->frameCount == 0)
+	if (c->frameCount >= wait)
 	{
 		for (int y = 0; y < m->height; y++)
 		{
@@ -92,5 +95,6 @@ void star::createStars(vector<vector<char>> mapCopy, vector<vector<int>> mapColo
 				m->set(m->width - 1, y, '*', 15);
 			}
 		}
+		wait = c->frameCount + (rand() % 14 - m->starSpeed + 1);
 	}
 }

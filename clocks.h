@@ -20,11 +20,6 @@ class clocks
 			interval = i;
 		}
 
-		clocks(int min, int max) //random interval constructor
-		{
-
-		}
-
 		void increment()
 		{
 			if (frameCount == interval && interval != 0)

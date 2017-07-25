@@ -24,7 +24,7 @@ class map
 		int centerY;
 		char bgChar;
 		int bgColor;
-		int playerX;
-		int playerY;
+		double starSpeed;
+		int fps;
 	private:
 };
